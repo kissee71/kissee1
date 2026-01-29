@@ -3,7 +3,7 @@
 <title>
 <head>
     <ttitle>Welcome to internet Technology Fundamentals</title>
-<t1>hi</t1>h1>
+<t1>hi</t1>
  </head>
 < body>
 <h1>Welcome to Laboratory 1</h1>

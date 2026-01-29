@@ -5,7 +5,7 @@
     <temuulen>temuulengpt</temuulen>
  </head>
 < body>
-<h1>Welcome to Laboratory 1</h1>
-helloo my name is temuulen its my first lab</p>
+<h1>hi mongoliin hamgiin sain ai site1</h1>
+<p>mongoliin hamgiin shildeg ai site bna yuugaar tuslahuuu
 </body>
 </html>

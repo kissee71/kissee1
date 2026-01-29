@@ -2,7 +2,7 @@
 <html>
 <title>
 <head>
-    <ttitle>Welcome to internet Technology Fundamentals</title>
+    <t1>Welcome to internet Technology Fundamentals</t1>
  </head>
 < body>
 <h1>Welcome to Laboratory 1</h1>

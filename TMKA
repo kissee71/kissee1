@@ -1,0 +1,21 @@
+import random
+
+print("Хэд хүртэлх тоо таах вэ?")
+n = int(input("n утгаа оруулна уу: "))
+
+secret = random.randint(1, n)  # компьютер нууц тоо сонгоно
+attempts = 0
+
+print(f"1-ээс {n} хүртэл тоо таагаарай!")
+
+while True:
+    guess = int(input("Таамаг: "))
+    attempts += 1
+
+    if guess == secret:
+        print(f"🎉 Зөв! Чи {attempts} оролдлогоор таалаа!")
+        break
+    elif guess < secret:
+        print("Их байна!")
+    else:
+        print("Бага байна!")

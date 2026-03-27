@@ -27,7 +27,7 @@ def make_guess():
         attempts += 1
         
         if guess == secret:
-            label_result.config(text=f"🎉 Зөв! Чи {attempts} оролдлогоор таалаа!", fg="green")
+            label_result.config(text=f" Зөв! Чи {attempts} оролдлогоор таалаа!", fg="green")
             # Таасан бол товчийг идэвхгүй болгоно
             button_guess.config(state=tk.DISABLED)
             entry_guess.config(state=tk.DISABLED)

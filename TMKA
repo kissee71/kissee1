@@ -1,70 +1,90 @@
-import tkinter as tk
-import random
+import tkinter as tk  # График интерфейс (цонх, товч) үүсгэх сан
+import random        # Санамсаргүй тоо гаргаж ирэх сан
 
-# Хувьсагчууд
-secret = 0
-attempts = 0
+# --- Ерөнхий хувьсагчууд ---
+secret = 0    # Компьютерын сонгосон нууц тоог хадгалах
+attempts = 0  # Хэдэн удаа таах гэж оролдсоныг тоолох
+
+# --- Функцүүд (Үйлдлүүд) ---
 
 def start_game():
-    global secret, attempts
+    """Тоглоомыг шинээр эхлүүлэх функц"""
+    global secret, attempts  # Гадна байгаа хувьсагчдыг ашиглах эрх авах
     try:
-        n = int(entry_n.get())
-        secret = random.randint(1, n)
-        attempts = 0
+        # Хэрэглэгчийн оруулсан 'n' утгыг тоо болгож авах
+        n = int(entry_n.get()) 
+        # 1-ээс n-ийн хооронд санамсаргүй тоо сонгох
+        secret = random.randint(1, n) 
+        attempts = 0 # Оролдлогыг 0-ээс эхлүүлэх
         
-        # Тоглоом эхлэх үед дэлгэцийн мэдээллийг шинэчлэх
+        # Дэлгэц дээрх заавар текстийг шинэчлэх
         label_result.config(text=f"1-ээс {n} хүртэл тоо таагаарай!", fg="blue")
+        # Таах хэсгийн нүд болон товчийг идэвхтэй (NORMAL) болгох
         button_guess.config(state=tk.NORMAL)
         entry_guess.config(state=tk.NORMAL)
+        # Өмнөх бичсэн тоог цэвэрлэх
         entry_guess.delete(0, tk.END)
     except ValueError:
+        # Хэрэв тоо биш зүйл оруулбал алдаа заах
         label_result.config(text="Алдаа: n утганд зөвхөн тоо оруулна уу!", fg="red")
 
 def make_guess():
+    """Хэрэглэгч тоо таах товч дарахад ажиллах функц"""
     global attempts
     try:
+        # Хэрэглэгчийн таамгийг уншиж авах
         guess = int(entry_guess.get())
-        attempts += 1
+        attempts += 1 # Оролдлогын тоог 1-ээр нэмэх
         
         if guess == secret:
-            label_result.config(text=f" Зөв! Чи {attempts} оролдлогоор таалаа!", fg="green")
-            # Таасан бол товчийг идэвхгүй болгоно
+            # Зөв таасан бол баяр хүргэж, товчлууруудыг түгжих (DISABLED)
+            label_result.config(text=f"🎉 Зөв! Чи {attempts} оролдлогоор таалаа!", fg="green")
             button_guess.config(state=tk.DISABLED)
             entry_guess.config(state=tk.DISABLED)
         elif guess > secret:
+            # Таасан тоо их байвал сануулах
             label_result.config(text=f"Их байна! (Оролдлого: {attempts})", fg="orange")
         else:
+            # Таасан тоо бага байвал сануулах
             label_result.config(text=f"Бага байна! (Оролдлого: {attempts})", fg="orange")
             
-        entry_guess.delete(0, tk.END) # Оруулсан тоог цэвэрлэх
+        # Дараагийн тоог бичихэд зориулж нүдийг цэвэрлэх
+        entry_guess.delete(0, tk.END) 
     except ValueError:
+        # Таамаг хэсэгт буруу утга оруулбал алдаа заах
         label_result.config(text="Алдаа: Таамаг хэсэгт тоо оруулна уу!", fg="red")
 
-# Үндсэн цонх үүсгэх
-root = tk.Tk()
-root.title("Тоо таах тоглоом")
-root.geometry("350x300")
-root.eval('tk::PlaceWindow . center') # Цонхыг дэлгэцийн голд гаргах
+# --- График интерфейс (Цонхны загвар) ---
 
-# --- Дэлгэцийн элементүүд (UI) ---
+root = tk.Tk() # Үндсэн цонхыг үүсгэх
+root.title("Тоо таах тоглоом") # Цонхны гарчиг
+root.geometry("350x300") # Цонхны хэмжээ (өргөн x өндөр)
+root.eval('tk::PlaceWindow . center') # Цонхыг дэлгэцийн голд байрлуулах
 
+# Заавар текст (Label)
 tk.Label(root, text="Хэд хүртэлх тоо таах вэ?", font=("Arial", 12)).pack(pady=10)
 
+# Хэд хүртэлх тоог оруулах нүд (Entry)
 entry_n = tk.Entry(root, font=("Arial", 12), width=10)
 entry_n.pack()
 
+# Тоглоом эхлүүлэх товч (Button)
 tk.Button(root, text="Тоглоом эхлүүлэх", command=start_game, bg="lightblue").pack(pady=10)
 
+# "Таамаг" гэсэн бичиг
 tk.Label(root, text="Таамаг:", font=("Arial", 12)).pack()
 
+# Таах тоог бичих нүд (Эхлээд идэвхгүй байна)
 entry_guess = tk.Entry(root, font=("Arial", 12), width=10, state=tk.DISABLED)
 entry_guess.pack()
 
+# Таах товч (Эхлээд идэвхгүй байна)
 button_guess = tk.Button(root, text="Таах", command=make_guess, bg="lightgreen", state=tk.DISABLED)
 button_guess.pack(pady=10)
 
+# Хариу болон үр дүнг харуулах текст
 label_result = tk.Label(root, text="Тоглоомоо эхлүүлнэ үү.", font=("Arial", 12, "bold"))
 label_result.pack(pady=15)
 
-# Програмыг ажиллуулах
+# Програмыг ажиллуулж, цонхыг нээлттэй байлгах
 root.mainloop()

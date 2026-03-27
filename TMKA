@@ -1,23 +1,70 @@
+import tkinter as tk
 import random
 
-print("Хэд хүртэлх тоо таах вэ?")
-n = int(input("n утгаа оруулна уу: "))
-
-secret = random.randint(1, n)  # компьютер нууц тоо сонгоно
+# Хувьсагчууд
+secret = 0
 attempts = 0
 
-print(f"1-ээс {n} хүртэл тоо таагаарай!")
+def start_game():
+    global secret, attempts
+    try:
+        n = int(entry_n.get())
+        secret = random.randint(1, n)
+        attempts = 0
+        
+        # Тоглоом эхлэх үед дэлгэцийн мэдээллийг шинэчлэх
+        label_result.config(text=f"1-ээс {n} хүртэл тоо таагаарай!", fg="blue")
+        button_guess.config(state=tk.NORMAL)
+        entry_guess.config(state=tk.NORMAL)
+        entry_guess.delete(0, tk.END)
+    except ValueError:
+        label_result.config(text="Алдаа: n утганд зөвхөн тоо оруулна уу!", fg="red")
 
-while True:
-    guess = int(input("Таамаг: "))
-    attempts += 1
+def make_guess():
+    global attempts
+    try:
+        guess = int(entry_guess.get())
+        attempts += 1
+        
+        if guess == secret:
+            label_result.config(text=f"🎉 Зөв! Чи {attempts} оролдлогоор таалаа!", fg="green")
+            # Таасан бол товчийг идэвхгүй болгоно
+            button_guess.config(state=tk.DISABLED)
+            entry_guess.config(state=tk.DISABLED)
+        elif guess > secret:
+            label_result.config(text=f"Их байна! (Оролдлого: {attempts})", fg="orange")
+        else:
+            label_result.config(text=f"Бага байна! (Оролдлого: {attempts})", fg="orange")
+            
+        entry_guess.delete(0, tk.END) # Оруулсан тоог цэвэрлэх
+    except ValueError:
+        label_result.config(text="Алдаа: Таамаг хэсэгт тоо оруулна уу!", fg="red")
 
-    if guess == secret:
-        print(f"🎉 Зөв! Чи {attempts} оролдлогоор таалаа!")
-        break
-    elif guess > secret:
-        # Таасан тоо нууц тооноос их байвал
-        print("Их байна! Арай бага тоо оруулна уу.")
-    else:
-        # Таасан тоо нууц тооноос бага байвал (guess < secret)
-        print("Бага байна! Арай их тоо оруулна уу.")
+# Үндсэн цонх үүсгэх
+root = tk.Tk()
+root.title("Тоо таах тоглоом")
+root.geometry("350x300")
+root.eval('tk::PlaceWindow . center') # Цонхыг дэлгэцийн голд гаргах
+
+# --- Дэлгэцийн элементүүд (UI) ---
+
+tk.Label(root, text="Хэд хүртэлх тоо таах вэ?", font=("Arial", 12)).pack(pady=10)
+
+entry_n = tk.Entry(root, font=("Arial", 12), width=10)
+entry_n.pack()
+
+tk.Button(root, text="Тоглоом эхлүүлэх", command=start_game, bg="lightblue").pack(pady=10)
+
+tk.Label(root, text="Таамаг:", font=("Arial", 12)).pack()
+
+entry_guess = tk.Entry(root, font=("Arial", 12), width=10, state=tk.DISABLED)
+entry_guess.pack()
+
+button_guess = tk.Button(root, text="Таах", command=make_guess, bg="lightgreen", state=tk.DISABLED)
+button_guess.pack(pady=10)
+
+label_result = tk.Label(root, text="Тоглоомоо эхлүүлнэ үү.", font=("Arial", 12, "bold"))
+label_result.pack(pady=15)
+
+# Програмыг ажиллуулах
+root.mainloop()
